@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy Birthday Megha 💕</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --crimson-deep:#5c0a1c;
+    --crimson:#8f0f28;
+    --rose:#c81e46;
+    --blush:#ffd9dd;
+    --gold:#e3b45c;
+    --cream:#fff6ef;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:'Quicksand',sans-serif;
+    background:
+      radial-gradient(circle at 20% 10%, var(--rose) 0%, transparent 45%),
+      radial-gradient(circle at 85% 85%, var(--crimson) 0%, transparent 50%),
+      linear-gradient(160deg, var(--crimson-deep), var(--crimson) 60%, var(--rose));
+    background-attachment:fixed;
+    min-height:100%;
+    overflow-x:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px 14px;
+    position:relative;
+  }
+
+  .heart-field{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0;}
+  .float-heart{
+    position:absolute; bottom:-10%;
+    font-size:22px; opacity:0.35;
+    animation:rise linear infinite;
+    color:var(--blush);
+  }
+  @keyframes rise{
+    0%{transform:translateY(0) rotate(0deg); opacity:0;}
+    10%{opacity:0.5;}
+    90%{opacity:0.4;}
+    100%{transform:translateY(-115vh) rotate(25deg); opacity:0;}
+  }
+
+  .card{
+    position:relative; z-index:2;
+    max-width:440px; width:100%;
+    background:linear-gradient(180deg, var(--cream), #fff);
+    border-radius:28px;
+    padding:30px 22px 26px;
+    text-align:center;
+    box-shadow:0 25px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(227,180,92,0.35);
+    border:1px solid rgba(227,180,92,0.5);
+    animation:cardIn 0.9s cubic-bezier(.2,.9,.25,1) both;
+  }
+  @keyframes cardIn{
+    from{opacity:0; transform:translateY(30px) scale(0.96);}
+    to{opacity:1; transform:translateY(0) scale(1);}
+  }
+
+  .eyebrow{
+    font-size:12px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--rose); font-weight:700; margin-bottom:4px;
+  }
+
+  .doll-wrap{
+    width:92px; height:92px; margin:2px auto 4px;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .doll{
+    font-size:56px;
+    display:inline-block;
+    animation:bob 3s ease-in-out infinite;
+    filter:drop-shadow(0 8px 10px rgba(140,20,40,0.35));
+    transition:transform .35s ease;
+  }
+  @keyframes bob{
+    0%,100%{transform:translateY(0) rotate(-3deg);}
+    50%{transform:translateY(-6px) rotate(3deg);}
+  }
+  .doll.pop{animation:pop 0.6s ease;}
+  @keyframes pop{
+    0%{transform:scale(1);}
+    30%{transform:scale(1.35) rotate(-8deg);}
+    60%{transform:scale(0.92) rotate(6deg);}
+    100%{transform:scale(1) rotate(0);}
+  }
+  .doll-crown{
+    position:absolute; top:-2px; left:50%;
+    transform:translateX(-50%) rotate(-8deg);
+    font-size:22px;
+    animation:crownSway 3s ease-in-out infinite;
+    filter:drop-shadow(0 4px 6px rgba(140,20,40,0.35));
+  }
+  @keyframes crownSway{
+    0%,100%{transform:translateX(-50%) rotate(-8deg) translateY(0);}
+    50%{transform:translateX(-50%) rotate(6deg) translateY(-4px);}
+  }
+
+  h1{
+    font-family:'Playfair Display', serif;
+    color:var(--crimson-deep);
+    font-size:23px;
+    margin:4px 0 2px;
+    line-height:1.25;
+  }
+  .step-msg{
+    font-size:15.5px;
+    color:#5a2431;
+    line-height:1.6;
+    margin:12px 0 18px;
+    min-height:30px;
+    font-weight:600;
+  }
+  .step-msg em{ font-style:italic; color:var(--rose); }
+
+  .btn{
+    appearance:none; border:none; cursor:pointer;
+    background:linear-gradient(135deg, var(--rose), var(--crimson));
+    color:#fff8f2;
+    font-family:'Quicksand',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:0.3px;
+    padding:13px 24px;
+    border-radius:50px;
+    box-shadow:0 10px 22px rgba(140,15,40,0.45);
+    transition:transform .15s ease, box-shadow .15s ease, opacity .3s ease;
+    width:100%;
+    max-width:280px;
+  }
+  .btn:active{transform:scale(0.96); box-shadow:0 6px 14px rgba(140,15,40,0.4);}
+  .btn[disabled]{opacity:0.4; pointer-events:none;}
+
+  .progress{ display:flex; gap:6px; justify-content:center; margin:16px 0 2px; flex-wrap:wrap; }
+  .dot{ width:7px; height:7px; border-radius:50%; background:rgba(140,20,40,0.18); transition:background .3s ease, transform .3s ease; }
+  .dot.active{ background:var(--rose); transform:scale(1.3); }
+  .dot.done{ background:var(--gold); }
+
+  .step{ display:none; }
+  .step.active{ display:block; animation:fadeStep .55s ease both; }
+  @keyframes fadeStep{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  .final-names{
+    font-family:'Playfair Display', serif; font-style:italic;
+    color:var(--gold); font-size:15px; margin-top:14px; letter-spacing:0.5px;
+  }
+
+  /* ---- Game shared ---- */
+  .game-hint{
+    font-size:13px; color:#8a4152; font-weight:600; margin-bottom:10px;
+  }
+  .game-area{
+    position:relative;
+    height:250px;
+    border-radius:20px;
+    overflow:hidden;
+    background:linear-gradient(180deg, #ffeef1, #ffe0e6);
+    border:2px dashed rgba(200,30,70,0.3);
+    margin-bottom:14px;
+  }
+  .hud{
+    display:flex; justify-content:center; align-items:center; gap:10px;
+    margin-bottom:10px; font-weight:700; color:var(--crimson-deep); font-size:14px;
+  }
+  .hud .pill{
+    background:rgba(200,30,70,0.1); padding:5px 12px; border-radius:20px; font-size:13px;
+  }
+
+  /* falling item (hearts) */
+  .fall-item{
+    position:absolute; bottom:-15%;
+    font-size:30px; cursor:pointer;
+    animation:floatUp linear forwards;
+    line-height:1;
+  }
+  @keyframes floatUp{
+    from{ transform:translateY(0) rotate(0deg); }
+    to{ transform:translateY(-290px) rotate(15deg); }
+  }
+  .float-pts{
+    position:absolute; font-weight:800; font-size:15px; pointer-events:none;
+    animation:ptsFloat 0.8s ease forwards;
+  }
+  @keyframes ptsFloat{
+    from{ opacity:1; transform:translateY(0); }
+    to{ opacity:0; transform:translateY(-35px); }
+  }
+  .pop-good{ animation:popGood 0.35s ease forwards !important; }
+  .pop-bad{ animation:popBad 0.35s ease forwards !important; }
+  @keyframes popGood{ to{ transform:scale(1.8); opacity:0; } }
+  @keyframes popBad{ to{ transform:scale(0.4) rotate(30deg); opacity:0; } }
+
+  /* balloons */
+  .balloon{
+    position:absolute; bottom:-20%;
+    width:46px; height:56px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    animation:balloonRise linear forwards;
+  }
+  .balloon::before{
+    content:'';
+    position:absolute; inset:0;
+    border-radius:50% 50% 50% 50% / 58% 58% 42% 42%;
+    box-shadow:inset -6px -8px 10px rgba(0,0,0,0.15), inset 6px 6px 8px rgba(255,255,255,0.25);
+  }
+  .balloon::after{
+    content:'';
+    position:absolute; bottom:-14px; left:50%; width:1.5px; height:16px;
+    background:rgba(90,20,30,0.4); transform:translateX(-50%);
+  }
+  .balloon-letter{
+    position:relative; z-index:2; color:#fff; font-weight:800; font-size:17px;
+    text-shadow:0 1px 2px rgba(0,0,0,0.3);
+  }
+  @keyframes balloonRise{
+    from{ transform:translateY(0) translateX(0); }
+    to{ transform:translateY(-300px) translateX(var(--drift, 0px)); }
+  }
+  .balloon.pop-good{ animation:popGood 0.35s ease forwards !important; }
+  .balloon.pop-bad{ animation:balloonWrong 0.4s ease forwards !important; }
+  @keyframes balloonWrong{
+    0%{ transform:translateX(0) scale(1); }
+    30%{ transform:translateX(-6px) scale(1.05); }
+    60%{ transform:translateX(6px) scale(1.05); }
+    100%{ transform:translateX(0) scale(0.85); opacity:0; }
+  }
+
+  .word-progress{
+    display:flex; justify-content:center; gap:8px; margin-bottom:12px;
+  }
+  .letter-box{
+    width:32px; height:36px; border-radius:8px;
+    background:rgba(200,30,70,0.08);
+    border:2px solid rgba(200,30,70,0.25);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; color:var(--crimson-deep); font-size:16px;
+    transition:all .3s ease;
+  }
+  .letter-box.filled{
+    background:var(--rose); color:#fff; border-color:var(--rose);
+    transform:scale(1.08);
+  }
+
+  .confetti-piece{
+    position:fixed; top:-5%; z-index:5; pointer-events:none;
+    border-radius:2px;
+    animation:confettiFall linear forwards;
+  }
+  @keyframes confettiFall{
+    to{ transform:translateY(110vh) rotate(540deg); opacity:0.9; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .doll, .float-heart, .card{ animation:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="heart-field" id="heartField"></div>
+
+<div class="card">
+  <div class="eyebrow">Hey 💕</div>
+
+  <div class="doll-wrap">
+    <span class="doll-crown">👑</span>
+    <span class="doll" id="doll">👸</span>
+  </div>
+
+  <h1 id="title">A little something for you...</h1>
+
+  <!-- STEP 0: intro -->
+  <div class="step active" data-step="0">
+    <p class="step-msg">Hi Megha, before your surprise begins, your queen needs a little help from you. There are a couple of tiny games first — <em>think before you tap</em>. 👑</p>
+    <button class="btn" onclick="goTo(1)">Let's play 💗</button>
+  </div>
+
+  <!-- STEP 1: GAME - catch hearts -->
+  <div class="step" data-step="1">
+    <div class="game-hint">Collect the full hearts 💗 — but leave the broken ones 💔 alone!</div>
+    <div class="hud">
+      <span class="pill" id="heartScore">Collected: 0 / 8</span>
+    </div>
+    <div class="game-area" id="heartGame"></div>
+    <button class="btn" id="heartContinueBtn" disabled onclick="goTo(2)">Continue →</button>
+  </div>
+
+  <!-- STEP 2: message after game 1 -->
+  <div class="step" data-step="2">
+    <p class="step-msg">Good girl 😌 — just like that, you always know exactly which parts of life are worth holding onto. That's what I love most about you.</p>
+    <button class="btn" onclick="goTo(3)">One more game →</button>
+  </div>
+
+  <!-- STEP 3: GAME - balloon word puzzle -->
+  <div class="step" data-step="3">
+    <div class="game-hint">Pop the balloons in the right order to spell the secret word</div>
+    <div class="word-progress" id="wordProgress"></div>
+    <div class="game-area" id="balloonGame"></div>
+    <button class="btn" id="balloonContinueBtn" disabled onclick="goTo(4)">Continue →</button>
+  </div>
+
+  <!-- STEP 4: message -->
+  <div class="step" data-step="4">
+    <p class="step-msg">That's exactly it — <em>love</em>. Whatever else changes this year, that word stays true, every single day, for you. 🌹</p>
+    <button class="btn" onclick="goTo(5)">Keep going →</button>
+  </div>
+
+  <!-- STEP 5: message -->
+  <div class="step" data-step="5">
+    <p class="step-msg">Thank you for playing along, my queen. Now close your eyes one last time... and tap below. 🎁</p>
+    <button class="btn" onclick="goTo(6)">Open my surprise →</button>
+  </div>
+
+  <!-- STEP 6: final -->
+  <div class="step" data-step="6">
+    <p class="step-msg" style="font-size:19px; font-family:'Playfair Display',serif; font-style:italic; color:var(--crimson-deep);">
+      Happy Birthday, my love. 🎂<br>Here's to another year of us.<br>
+      Every day with you is the most beautiful gift of my life. <br>
+      Your smile brightens my darkest days, and your love makes every moment special. <br>
+      Thank you for being my partner, my best friend, and my happiness
+    </p>
+    <div class="final-names">— Shailesh, today &amp; always, for Megha</div>
+  </div>
+
+  <div class="progress" id="progress"></div>
+</div>
+
+<script>
+  const totalSteps = 7; // 0..6
+  const doll = document.getElementById('doll');
+  const progress = document.getElementById('progress');
+  const title = document.getElementById('title');
+
+  const titles = {
+    0: "A little something for you...",
+    1: "Game 1: Catch the Hearts",
+    2: "Well played 💗",
+    3: "Game 2: Pop in Order",
+    4: "Almost there...",
+    5: "One last tap...",
+    6: "Happy Birthday! 🎉"
+  };
+
+  for(let i=0;i<totalSteps;i++){
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===0 ? ' active' : '');
+    d.id = 'dot'+i;
+    progress.appendChild(d);
+  }
+
+  let current = 0;
+  function goTo(next){
+    document.querySelector(`.step[data-step="${current}"]`).classList.remove('active');
+    document.querySelector(`.step[data-step="${next}"]`).classList.add('active');
+    document.getElementById('dot'+current).classList.remove('active');
+    document.getElementById('dot'+current).classList.add('done');
+    document.getElementById('dot'+next).classList.add('active');
+    title.textContent = titles[next];
+    current = next;
+
+    doll.classList.remove('pop');
+    void doll.offsetWidth;
+    doll.classList.add('pop');
+
+    if(next === 1) startHeartGame();
+    if(next === 3) startBalloonGame();
+    if(next === 6) launchConfetti();
+  }
+
+  /* ================= floating hearts background ================= */
+  const heartField = document.getElementById('heartField');
+  const heartEmojis = ['💗','💕','🌹','💖','♥️'];
+  function spawnBgHeart(){
+    const h = document.createElement('span');
+    h.className = 'float-heart';
+    h.textContent = heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+    h.style.left = Math.random()*100 + 'vw';
+    const duration = 8 + Math.random()*7;
+    h.style.animationDuration = duration + 's';
+    h.style.fontSize = (16 + Math.random()*18) + 'px';
+    heartField.appendChild(h);
+    setTimeout(()=>h.remove(), duration*1000);
+  }
+  setInterval(spawnBgHeart, 700);
+  for(let i=0;i<6;i++) setTimeout(spawnBgHeart, i*300);
+
+  /* ================= GAME 1: catch hearts ================= */
+  let heartGameInterval = null;
+  let heartScore = 0;
+  const HEART_TARGET = 8;
+
+  function startHeartGame(){
+    if(heartGameInterval) return; // already running
+    const area = document.getElementById('heartGame');
+    area.innerHTML = '';
+    heartScore = 0;
+    document.getElementById('heartScore').textContent = `Collected: 0 / ${HEART_TARGET}`;
+    document.getElementById('heartContinueBtn').disabled = true;
+
+    heartGameInterval = setInterval(()=>{
+      const isGood = Math.random() < 0.68;
+      const item = document.createElement('span');
+      item.className = 'fall-item';
+      item.textContent = isGood ? '💗' : '💔';
+      item.dataset.good = isGood ? '1' : '0';
+      const left = 6 + Math.random()*82;
+      item.style.left = left + '%';
+      const dur = 3.2 + Math.random()*1.6;
+      item.style.animationDuration = dur + 's';
+      area.appendChild(item);
+
+      item.addEventListener('click', ()=>onHeartTap(item, area));
+      setTimeout(()=>{ if(item.parentNode) item.remove(); }, dur*1000 + 50);
+    }, 650);
+  }
+
+  function onHeartTap(item, area){
+    if(!item.parentNode) return;
+    const good = item.dataset.good === '1';
+    const rect = item.getBoundingClientRect();
+    const areaRect = area.getBoundingClientRect();
+    const pts = document.createElement('span');
+    pts.className = 'float-pts';
+    pts.style.left = (rect.left - areaRect.left) + 'px';
+    pts.style.top = (rect.top - areaRect.top) + 'px';
+
+    if(good){
+      heartScore++;
+      pts.textContent = '+1';
+      pts.style.color = '#c81e46';
+      item.classList.add('pop-good');
+    }else{
+      heartScore = Math.max(0, heartScore - 1);
+      pts.textContent = '-1';
+      pts.style.color = '#8a4152';
+      item.classList.add('pop-bad');
+    }
+    area.appendChild(pts);
+    setTimeout(()=>pts.remove(), 800);
+    setTimeout(()=>{ if(item.parentNode) item.remove(); }, 350);
+
+    document.getElementById('heartScore').textContent = `Collected: ${heartScore} / ${HEART_TARGET}`;
+
+    if(heartScore >= HEART_TARGET){
+      clearInterval(heartGameInterval);
+      heartGameInterval = null;
+      document.getElementById('heartContinueBtn').disabled = false;
+      setTimeout(()=>{
+        document.querySelectorAll('#heartGame .fall-item').forEach(el=>el.remove());
+      }, 400);
+    }
+  }
+
+  /* ================= GAME 2: balloon word puzzle ================= */
+  const targetWord = ['L','O','V','E'];
+  let wordIndex = 0;
+  let balloonGameInterval = null;
+  const balloonColors = ['#c81e46','#e3b45c','#8f0f28','#d97b8f'];
+  const decoyLetters = ['A','B','R','K','M','S','X','Q','T','N','P','W'];
+
+  function renderWordProgress(){
+    const wp = document.getElementById('wordProgress');
+    wp.innerHTML = '';
+    targetWord.forEach((letter, i)=>{
+      const box = document.createElement('div');
+      box.className = 'letter-box' + (i < wordIndex ? ' filled' : '');
+      box.textContent = i < wordIndex ? letter : '?';
+      wp.appendChild(box);
+    });
+  }
+
+  function startBalloonGame(){
+    if(balloonGameInterval) return;
+    wordIndex = 0;
+    renderWordProgress();
+    const area = document.getElementById('balloonGame');
+    area.innerHTML = '';
+    document.getElementById('balloonContinueBtn').disabled = true;
+
+    balloonGameInterval = setInterval(()=>{
+      const nextNeeded = targetWord[wordIndex];
+      let letter;
+      if(Math.random() < 0.45 && nextNeeded){
+        letter = nextNeeded;
+      } else {
+        const pool = decoyLetters.concat(targetWord.filter(l => l !== nextNeeded));
+        letter = pool[Math.floor(Math.random()*pool.length)];
+      }
+
+      const b = document.createElement('div');
+      b.className = 'balloon';
+      b.dataset.letter = letter;
+      const left = 8 + Math.random()*78;
+      b.style.left = left + '%';
+      b.style.setProperty('--drift', (Math.random()*30 - 15) + 'px');
+      const dur = 4.2 + Math.random()*1.4;
+      b.style.animationDuration = dur + 's';
+      const color = balloonColors[Math.floor(Math.random()*balloonColors.length)];
+      b.style.setProperty('background', 'transparent');
+      b.querySelector; // noop
+      b.style.setProperty('--balloon-color', color);
+      b.innerHTML = `<span class="balloon-letter">${letter}</span>`;
+      b.style.background = 'transparent';
+      const shape = document.createElement('style');
+      // fallback: set radial gradient directly via inline before pseudo not possible, so paint balloon body with real element
+      b.style.setProperty('color', '#fff');
+      b.style.setProperty('background-image', `radial-gradient(circle at 35% 30%, ${lighten(color)}, ${color})`);
+      b.style.setProperty('border-radius', '50% 50% 50% 50% / 58% 58% 42% 42%');
+
+      area.appendChild(b);
+      b.addEventListener('click', ()=>onBalloonTap(b, area));
+      setTimeout(()=>{ if(b.parentNode) b.remove(); }, dur*1000 + 50);
+    }, 700);
+  }
+
+  function lighten(hex){
+    return '#ffe3ea';
+  }
+
+  function onBalloonTap(b, area){
+    if(!b.parentNode) return;
+    const letter = b.dataset.letter;
+    const needed = targetWord[wordIndex];
+
+    if(letter === needed){
+      b.classList.add('pop-good');
+      wordIndex++;
+      renderWordProgress();
+      setTimeout(()=>{ if(b.parentNode) b.remove(); }, 350);
+
+      if(wordIndex >= targetWord.length){
+        clearInterval(balloonGameInterval);
+        balloonGameInterval = null;
+        document.getElementById('balloonContinueBtn').disabled = false;
+        setTimeout(()=>{
+          document.querySelectorAll('#balloonGame .balloon').forEach(el=>el.remove());
+        }, 400);
+      }
+    } else {
+      b.classList.add('pop-bad');
+      setTimeout(()=>{ if(b.parentNode) b.remove(); }, 400);
+    }
+  }
+
+  /* ================= confetti ================= */
+  function launchConfetti(){
+    const colors = ['#e3b45c','#c81e46','#ffd9dd','#8f0f28','#fff6ef'];
+    for(let i=0;i<70;i++){
+      setTimeout(()=>{
+        const c = document.createElement('div');
+        c.className = 'confetti-piece';
+        const size = 6 + Math.random()*6;
+        c.style.width = size + 'px';
+        c.style.height = size*0.4 + 'px';
+        c.style.left = Math.random()*100 + 'vw';
+        c.style.background = colors[Math.floor(Math.random()*colors.length)];
+        c.style.animationDuration = (2.5 + Math.random()*2) + 's';
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(), 5000);
+      }, i*30);
+    }
+  }
+</script>
+
+</body>
+</html>
