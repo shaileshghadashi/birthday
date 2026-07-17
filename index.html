@@ -173,6 +173,39 @@
     background:rgba(200,30,70,0.1); padding:5px 12px; border-radius:20px; font-size:13px;
   }
 
+  .love-meter-wrap{
+    position:relative;
+    height:22px;
+    border-radius:14px;
+    background:rgba(200,30,70,0.1);
+    border:2px solid rgba(200,30,70,0.25);
+    overflow:hidden;
+    margin-bottom:12px;
+  }
+  .love-meter-fill{
+    height:100%;
+    width:0%;
+    border-radius:14px;
+    background:linear-gradient(90deg, var(--gold), var(--rose), var(--crimson-deep));
+    background-size:200% 100%;
+    transition:width 0.4s cubic-bezier(.2,.9,.25,1);
+    animation:meterShimmer 2s linear infinite;
+  }
+  @keyframes meterShimmer{
+    0%{ background-position:0% 0%; }
+    100%{ background-position:200% 0%; }
+  }
+  .love-meter-label{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11.5px; font-weight:800; letter-spacing:0.4px;
+    color:var(--crimson-deep);
+    mix-blend-mode:multiply;
+  }
+  .love-meter-fill.full{
+    animation:meterShimmer 0.6s linear infinite;
+  }
+
   /* falling item (hearts) */
   .fall-item{
     position:absolute; bottom:-15%;
@@ -192,7 +225,7 @@
     from{ opacity:1; transform:translateY(0); }
     to{ opacity:0; transform:translateY(-35px); }
   }
-  .pop-good{ animation:popGood 0.35s ease forwards !important; }
+  .pop-good{ animation:popGood 0.6s ease forwards !important; }
   .pop-bad{ animation:popBad 0.35s ease forwards !important; }
   @keyframes popGood{ to{ transform:scale(1.8); opacity:0; } }
   @keyframes popBad{ to{ transform:scale(0.4) rotate(30deg); opacity:0; } }
@@ -258,6 +291,31 @@
     to{ transform:translateY(110vh) rotate(540deg); opacity:0.9; }
   }
 
+  .toast{
+    position:fixed;
+    top:12%;
+    left:50%;
+    transform:translateX(-50%) translateY(-14px) scale(0.9);
+    background:linear-gradient(135deg, var(--rose), var(--crimson-deep));
+    color:#fff8f2;
+    font-family:'Quicksand',sans-serif;
+    font-weight:800;
+    font-size:14px;
+    padding:11px 20px;
+    border-radius:22px;
+    box-shadow:0 12px 28px rgba(140,15,40,0.5), 0 0 0 1px rgba(227,180,92,0.4);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease;
+    z-index:50;
+    max-width:80vw;
+    text-align:center;
+  }
+  .toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0) scale(1);
+  }
+
   @media (prefers-reduced-motion: reduce){
     .doll, .float-heart, .card{ animation:none !important; }
   }
@@ -268,7 +326,7 @@
 <div class="heart-field" id="heartField"></div>
 
 <div class="card">
-  <div class="eyebrow">Hey Megha 💕</div>
+  <div class="eyebrow">Megha 💕💗 </div>
 
   <div class="doll-wrap">
     <span class="doll-crown">👑</span>
@@ -286,11 +344,11 @@
   <!-- STEP 1: GAME - catch hearts -->
   <div class="step" data-step="1">
     <div class="game-hint">Collect the full hearts 💗 — but leave the broken ones 💔 alone!</div>
-    <div class="hud">
-      <span class="pill" id="heartScore">Collected: 0 / 8</span>
+    <div class="love-meter-wrap">
+      <div class="love-meter-fill" id="loveMeterFill"></div>
+      <span class="love-meter-label" id="loveMeterLabel">💗 Love Meter</span>
     </div>
     <div class="game-area" id="heartGame"></div>
-    <button class="btn" id="heartContinueBtn" disabled onclick="goTo(2)">Continue →</button>
   </div>
 
   <!-- STEP 2: message after game 1 -->
@@ -304,7 +362,6 @@
     <div class="game-hint">Pop the balloons in the right order to spell the secret word</div>
     <div class="word-progress" id="wordProgress"></div>
     <div class="game-area" id="balloonGame"></div>
-    <button class="btn" id="balloonContinueBtn" disabled onclick="goTo(4)">Continue →</button>
   </div>
 
   <!-- STEP 4: message -->
@@ -322,16 +379,19 @@
   <!-- STEP 6: final -->
   <div class="step" data-step="6">
     <p class="step-msg" style="font-size:19px; font-family:'Playfair Display',serif; font-style:italic; color:var(--crimson-deep);">
-      Happy Birthday, my love. 🎂<br>Here's to another year of us.<br>
-      Every day with you is the most beautiful gift of my life. <br>
-      Your smile brightens my darkest days, and your love makes every moment special. <br>
-      Thank you for being my partner, my best friend, and my happiness
+      Happy Birthday, my love. 🎂<br>Here's to another year of us.
+    </p>
+    <p class="step-msg" style="font-size:14.5px; font-weight:600;">
+      You are my favorite person to grow old with, my favorite hand to hold, and my favorite reason to smile.<br>
+      Thank you for being exactly who you are, Megha — I fall for you a little more with every year. 🌹
     </p>
     <div class="final-names">— Shailesh, today &amp; always, for Megha</div>
   </div>
 
   <div class="progress" id="progress"></div>
 </div>
+
+<div class="toast" id="romanticToast"></div>
 
 <script>
   const totalSteps = 7; // 0..6
@@ -375,6 +435,33 @@
     if(next === 6) launchConfetti();
   }
 
+  /* ================= romantic toast popup ================= */
+  const romanticMessages = [
+    "You always know what matters 💕",
+    "That's my girl 😍",
+    "Every choice you make amazes me",
+    "You're doing wonderful, my queen 👑",
+    "My heart skips a beat right now",
+    "Perfectly, beautifully you 🌹",
+    "Love finds you every single time",
+    "You make this so easy, love",
+    "This is why I chose you 💗",
+    "Even this makes me fall for you more"
+  ];
+  let toastTimeout = null;
+  function showToast(text){
+    const t = document.getElementById('romanticToast');
+    clearTimeout(toastTimeout);
+    t.classList.remove('show');
+    void t.offsetWidth;
+    t.textContent = text;
+    t.classList.add('show');
+    toastTimeout = setTimeout(()=>t.classList.remove('show'), 1000);
+  }
+  function randomRomanticMessage(){
+    return romanticMessages[Math.floor(Math.random()*romanticMessages.length)];
+  }
+
   /* ================= floating hearts background ================= */
   const heartField = document.getElementById('heartField');
   const heartEmojis = ['💗','💕','🌹','💖','♥️'];
@@ -402,8 +489,8 @@
     const area = document.getElementById('heartGame');
     area.innerHTML = '';
     heartScore = 0;
-    document.getElementById('heartScore').textContent = `Collected: 0 / ${HEART_TARGET}`;
-    document.getElementById('heartContinueBtn').disabled = true;
+    document.getElementById('loveMeterFill').style.width = '0%';
+    document.getElementById('loveMeterFill').classList.remove('full');
 
     heartGameInterval = setInterval(()=>{
       const isGood = Math.random() < 0.68;
@@ -437,6 +524,7 @@
       pts.textContent = '+1';
       pts.style.color = '#c81e46';
       item.classList.add('pop-good');
+      showToast(randomRomanticMessage());
     }else{
       heartScore = Math.max(0, heartScore - 1);
       pts.textContent = '-1';
@@ -447,15 +535,21 @@
     setTimeout(()=>pts.remove(), 800);
     setTimeout(()=>{ if(item.parentNode) item.remove(); }, 350);
 
-    document.getElementById('heartScore').textContent = `Collected: ${heartScore} / ${HEART_TARGET}`;
+    const pct = Math.min(100, Math.round((heartScore / HEART_TARGET) * 100));
+    const fill = document.getElementById('loveMeterFill');
+    fill.style.width = pct + '%';
 
     if(heartScore >= HEART_TARGET){
+      fill.classList.add('full');
       clearInterval(heartGameInterval);
       heartGameInterval = null;
-      document.getElementById('heartContinueBtn').disabled = false;
+      document.querySelectorAll('#heartGame .fall-item').forEach(el=>{
+        el.style.pointerEvents = 'none';
+      });
       setTimeout(()=>{
         document.querySelectorAll('#heartGame .fall-item').forEach(el=>el.remove());
-      }, 400);
+        goTo(2);
+      }, 700);
     }
   }
 
@@ -483,7 +577,6 @@
     renderWordProgress();
     const area = document.getElementById('balloonGame');
     area.innerHTML = '';
-    document.getElementById('balloonContinueBtn').disabled = true;
 
     balloonGameInterval = setInterval(()=>{
       const nextNeeded = targetWord[wordIndex];
@@ -534,15 +627,20 @@
       b.classList.add('pop-good');
       wordIndex++;
       renderWordProgress();
+      showToast(randomRomanticMessage());
       setTimeout(()=>{ if(b.parentNode) b.remove(); }, 350);
 
       if(wordIndex >= targetWord.length){
         clearInterval(balloonGameInterval);
         balloonGameInterval = null;
-        document.getElementById('balloonContinueBtn').disabled = false;
+        document.querySelectorAll('#balloonGame .balloon').forEach(el=>{
+          el.style.pointerEvents = 'none';
+        });
         setTimeout(()=>{
           document.querySelectorAll('#balloonGame .balloon').forEach(el=>el.remove());
-        }, 400);
+          showToast("You spelled it, love — LOVE 💗");
+          setTimeout(()=>goTo(4), 900);
+        }, 500);
       }
     } else {
       b.classList.add('pop-bad');
